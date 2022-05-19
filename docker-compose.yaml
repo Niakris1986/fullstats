@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:12-alpine
+    restart: always
+    env_file:
+      - ./infrastructure/services/postgres/.env
+    volumes:
+      - ./.data/pg/mount:/var/lib/postgresql/data
+    ports:
+      - "8888:5432"
