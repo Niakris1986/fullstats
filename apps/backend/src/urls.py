@@ -18,6 +18,7 @@ from django.urls import path, include
 
 api_v1_urls = [
     path('users/', include('users.urls')),
+    path('articles/', include('articles.urls')),
 ]
 
 urlpatterns = [
