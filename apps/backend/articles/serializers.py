@@ -23,3 +23,4 @@ class LikeArticleCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = LikeArticle
         fields = ['rating']
+
