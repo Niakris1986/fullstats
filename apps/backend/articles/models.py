@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
@@ -14,6 +16,7 @@ class Article(models.Model):
     body = models.TextField(_('body article'))
     short_summary = models.TextField(_('short summary article'))
     views = models.PositiveIntegerField(_('article views'), default=0)
+    publish = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return self.title
@@ -39,7 +42,7 @@ class LikeChoices(models.IntegerChoices):
 
 
 class LikeArticle(models.Model):
-    user = models.ForeignKey(User, models.CASCADE)
+    user = models.ForeignKey(User, models.CASCADE, null=True, blank=True)
     article = models.ForeignKey(Article, models.CASCADE, related_name='likes')
     rating = models.IntegerField(
         _('article rating'),
@@ -50,3 +53,6 @@ class LikeArticle(models.Model):
     class Meta:
         verbose_name = 'Лайк'
         verbose_name_plural = 'Лайки'
+        constraints = [
+            models.constraints.UniqueConstraint(fields=['user', 'article'], name='unique_like')
+        ]
